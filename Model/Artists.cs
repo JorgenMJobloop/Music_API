@@ -5,5 +5,5 @@ public class Artists
     public string? Names { get; set; }
     public string? Genre { get; set; }
     public List<string>? Albums { get; set; }
-    public string? ImageURL { get; set; }
+    public string? ImageURL { set; get; }
 }

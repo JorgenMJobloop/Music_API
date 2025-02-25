@@ -11,7 +11,7 @@ public class ArtistsController : ControllerBase
 
     private List<Artists> _artists = new List<Artists>() {
 
-        new Artists { ID = 1, guid = Guid.NewGuid(), Names = "The Cure", Genre = "Post-punk", Albums = ["Three Imaginary Boys", "Seventeen Seconds", "Faith", "Pornography", "The Top", "The Head On The Door", "Kiss Me, Kiss Me, Kiss Me", "Disintegration", "Wish", "Wild Mood Swings", "Bloodflowers", "The Cure", "4:13 Dream", "Songs of a Lost World"], ImageURL = "localhost:5191/images/thecure.jpg"}
+        new Artists { ID = 1, guid = Guid.NewGuid(), Names = "The Cure", Genre = "Post-punk", Albums = ["Three Imaginary Boys", "Seventeen Seconds", "Faith", "Pornography", "The Top", "The Head On The Door", "Kiss Me, Kiss Me, Kiss Me", "Disintegration", "Wish", "Wild Mood Swings", "Bloodflowers", "The Cure", "4:13 Dream", "Songs of a Lost World"], ImageURL = "localhost:5000/images/thecure.jpg"}
     };
 
     public ArtistsController(AppDbContext context)
@@ -37,7 +37,11 @@ public class ArtistsController : ControllerBase
     {
         _context.Add(artists);
         _context.SaveChanges();
+        if (artists.ImageURL == string.Empty || artists.ImageURL != null)
+        {
+            return BadRequest("Clients cannot upload image-file paths to the server!");
+        }
 
-        return CreatedAtAction(nameof(Post), new { id = artists.ID, names = artists.Names, genre = artists.Genre, albums = artists.Albums }, artists);
+        return CreatedAtAction(nameof(Post), new { names = artists.Names, genre = artists.Genre, albums = artists.Albums }, artists);
     }
 }
